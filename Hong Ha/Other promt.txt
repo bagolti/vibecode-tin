@@ -1,0 +1,3 @@
+Hay can cu vao muc 4 danh sach chuc nang trong file PRD
+[link PRD]]
+Hay giup toi chia ung dung thanh nhung module rieng biet va cap nhat vao file PRD để tôi biet 

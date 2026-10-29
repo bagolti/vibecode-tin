@@ -1,0 +1,31 @@
+Tôi muốn xây dựng ứng dụng website quảng cáo trường HCS-THPT Hồng Hà, có trụ sở tai 170 Quang Trung, Gò Vấp. Trang web gioi thieu thong tin ve truong, những thành
+tich ma truong đã đat đuoc. Tham khảo tai https://thpthongha.com/. Trang web được sử dung để tuyển sinh nên sẽ có phần đăng ký tư vấn và điền thông tin. 
+Đối tượng sử dụng chính là phụ huynh, học sinh sử dung đien thoai và máy tính..
+Ứng dụng cần các chức năng chính sau: Mỗi phần có 1 trang riêng, ví dụ như thành tích sẽ có trang riêng về thành tích. Không liệt kê tát cả chuc năng ở trang chính. 
+.Trang chủ chỉ đơn giản là hình ảnh quảng cáo. và điền thông tin để liên lac tư vấn
+Giao diện: các màn hình cần có như sau: Trang chủ và các trang thông tin và trang điền thông tin cá nhan để tư vấn
+Hãy đặt câu hỏi để làm rõ những phần tôi mô tả chưa rõ (mục tiêu, người dùng, phạm vi chức năng).
+Sau khi đã đủ thông tin, hãy viết PRD và DESIGN hoàn chỉnh theo cấu trúc file PRD.MD và DESIGN.MD chuẩn, gồm:
+
+(1) Tổng quan ứng dụng
+(2) Mục tiêu ứng dụng
+(3) Đối tượng người dùng và User Stories
+(4) Danh sách chức năng chính, kèm độ ưu tiên Must/Should/Could
+(5) Non-Goals - những gì KHÔNG làm ở phiên bản này
+(6) Luồng sử dụng chính - các bước người dùng thao tác theo thứ tự
+(7) Giao diện dự kiến (liên kết với DESIGN.MD)
+(8) Ràng buộc kỹ thuật
+(9) Tiêu chí thành công (Success Metrics)
+
+và file DESIGN.MD chuẩn, gồm:
+1. Tổng quan 
+2. Màu sắc 
+3. Chữ viết
+4. Khoảng cách & Bố cục 
+5. Hình khối & Chiều sâu 
+6. Thành phần giao diện 
+7. Biểu tượng & Hình ảnh 
+8. Chuyển động 
+9. Trang thái giao diện 
+
+

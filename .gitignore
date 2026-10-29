@@ -1,0 +1,3 @@
+# Video quay màn hình quá lớn cho GitHub (>100MB)
+*.mp4
+node_modules/

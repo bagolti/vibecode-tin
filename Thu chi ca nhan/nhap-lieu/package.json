@@ -1,0 +1,15 @@
+{
+  "name": "so-thu-chi-nhap-lieu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sổ Thu Chi – Module M3: Nhập liệu thu chi",
+  "scripts": {
+    "test": "node --test --test-reporter=spec \"tests/unit/*.test.js\" \"tests/e2e/*.test.js\"",
+    "test:unit": "node --test --test-reporter=spec \"tests/unit/*.test.js\"",
+    "test:e2e": "node --test --test-reporter=spec \"tests/e2e/*.test.js\""
+  },
+  "devDependencies": {
+    "axe-core": "4.10.2",
+    "puppeteer-core": "24.2.0"
+  }
+}

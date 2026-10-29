@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sổ Thu Chi – Module Nhập liệu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/entry.css">
+<style>
+/* Khung thử nghiệm: thay cho M2/M5. Không thuộc module Nhập liệu. */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:24px;padding:0 var(--gutter)}
+.dev-hd{max-width:1120px;margin:0 auto;height:56px;display:flex;align-items:center;gap:12px}
+.dev-hd h1{margin:0 auto 0 0;font-size:18px;line-height:26px;font-weight:600}
+.dev-add{display:none}
+@media (min-width:1024px){.dev-add{display:inline-flex}.dev-fab{display:none!important}}
+.dev-fab{position:fixed;z-index:20;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;
+  background:var(--primary);color:var(--primary-contrast);box-shadow:var(--shadow-2);display:flex;align-items:center;justify-content:center;border:0;cursor:pointer}
+.dev-fab:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.dev-main{max-width:1120px;margin:0 auto;padding:8px 0 112px}
+.dev-note{background:var(--surface-2);border-radius:var(--radius-md);padding:12px 16px;font-size:13px;line-height:18px;color:var(--text-muted);margin:0 0 16px}
+.dev-card{background:var(--surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-1);padding:8px 16px}
+.dev-row{display:flex;align-items:center;gap:12px;min-height:56px;border-top:1px solid var(--border)}
+.dev-row:first-child{border-top:0}
+.dev-row .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.dev-row .tx b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dev-row .tx small{font-size:13px;line-height:18px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dev-row .amt{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dev-row .amt.income{color:var(--income)}.dev-row .amt.expense{color:var(--expense)}
+.dev-empty{padding:24px 0;text-align:center;color:var(--text-muted)}
+.dev-edit{min-height:44px;padding:0 12px;border-radius:var(--radius-md);background:var(--surface-2);border:0;cursor:pointer;font-weight:600;color:var(--text)}
+.dev-edit:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.dev-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 16px;border-radius:var(--radius-md);background:var(--primary);color:var(--primary-contrast);border:0;font:inherit;font-weight:600;cursor:pointer}
+.dev-btn:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.dev-count{font-size:13px;line-height:18px;color:var(--text-muted);margin:0 0 8px}
+</style>
+</head>
+<body>
+<header class="dev-hd">
+  <h1>Sổ Thu Chi</h1>
+  <button type="button" class="dev-btn dev-add" data-action="add">+ Thêm khoản</button>
+</header>
+<main class="dev-main">
+  <p class="dev-note">Trang thử nghiệm module <b>Nhập liệu thu chi (M3)</b>. Danh sách bên dưới chỉ để kiểm tra dữ liệu đã lưu (thuộc M5, sẽ được thay khi xây module đó).</p>
+  <p class="dev-count" id="dev-count" aria-live="polite"></p>
+  <section class="dev-card" id="dev-list" aria-label="Các khoản đã lưu"></section>
+</main>
+<button type="button" class="dev-fab" data-action="add" aria-label="Thêm khoản">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<script src="js/entry-model.js"></script>
+<script src="js/demo-store.js"></script>
+<script src="js/entry-view.js"></script>
+<script>
+(function () {
+  var M = EntryModel;
+  SoThuChiEntry.configure({ store: DemoStore });
+  var list = document.getElementById('dev-list'), count = document.getElementById('dev-count');
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function render() {
+    var all = DemoStore.all().sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : b.createdAt - a.createdAt; });
+    count.textContent = all.length + ' khoản đã lưu';
+    if (!all.length) { list.innerHTML = '<p class="dev-empty">Chưa có khoản nào. Bấm “Thêm khoản” để ghi khoản đầu tiên.</p>'; return; }
+    list.innerHTML = all.map(function (t) {
+      var c = M.getCategory(t.category);
+      return '<div class="dev-row" data-id="' + esc(t.id) + '"><div class="tx"><b>' + esc(c ? c.name : t.category) + '</b><small>' + M.dmy(t.date) + (t.note ? ' · ' + esc(t.note.replace(/\n/g, ' ')) : '') + '</small></div>' +
+        '<span class="amt ' + t.type + '">' + M.formatSigned(t.amount, t.type) + '</span>' +
+        '<button type="button" class="dev-edit" data-action="edit" data-id="' + esc(t.id) + '">Sửa</button></div>';
+    }).join('');
+  }
+  document.addEventListener('sotc:data-changed', render);
+  render();
+})();
+</script>
+</body>
+</html>
