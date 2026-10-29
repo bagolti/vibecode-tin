@@ -1,0 +1,52 @@
+/*
+ * Token thiết kế (DESIGN.md mục 2, 3, 4, 5, 8). Thuộc phạm vi M2 (Khung giao diện & chủ đề);
+ * được chép vào đây chỉ để M4 chạy và test độc lập. Khi M2 hoàn thành, thay bằng token của M2 (cùng tên biến).
+ */
+:root {
+  --primary: #2F6FED; --primary-contrast: #FFFFFF;
+  --income: #12805C; --income-soft: #E3F5EE;
+  --expense: #C8421E; --expense-soft: #FCEBE5;
+  --danger: #B3261E; --warning: #8A6100;
+  --bg: #F6F7F9; --surface: #FFFFFF; --surface-2: #EEF0F4; --border: #DDE1E8;
+  --text: #14181F; --text-muted: #5B6472;
+  --cat-1: #E8743B; --cat-2: #2F6FED; --cat-3: #7A5AF8; --cat-4: #D9468F;
+  --cat-5: #E0A100; --cat-6: #12805C; --cat-7: #0E9AA7; --cat-8: #7B8494;
+  --scrim: rgba(10, 14, 22, .5);
+  --shadow-1: 0 1px 2px rgba(16, 24, 40, .06);
+  --shadow-2: 0 4px 12px rgba(16, 24, 40, .10);
+  --shadow-3: 0 16px 40px rgba(16, 24, 40, .18);
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --radius-full: 999px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-7: 32px; --space-8: 48px;
+  --dur-fast: 120ms; --dur-base: 200ms; --dur-slow: 400ms;
+  --ease-out: cubic-bezier(.2, .8, .2, 1); --ease-in: cubic-bezier(.4, 0, 1, 1);
+  --font: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --gutter: 16px;
+  color-scheme: light;
+}
+@media (min-width: 640px) { :root { --gutter: 24px; } }
+@media (min-width: 1024px) { :root { --gutter: 32px; } }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #6C9BFF; --primary-contrast: #0B1220;
+    --income: #3DD598; --income-soft: #12372C; --expense: #FF8A65; --expense-soft: #3F2219;
+    --danger: #F2766D; --warning: #F2C14E;
+    --bg: #0F1115; --surface: #181B21; --surface-2: #222630; --border: #2E3340;
+    --text: #ECEFF4; --text-muted: #A0A8B6;
+    --cat-1: #FF9A66; --cat-2: #6C9BFF; --cat-3: #A58BFF; --cat-4: #F07DB5;
+    --cat-5: #F2C14E; --cat-6: #3DD598; --cat-7: #4FD1DB; --cat-8: #9AA3B2;
+    --shadow-1: 0 0 0 rgba(0, 0, 0, 0); --shadow-2: 0 4px 12px rgba(0, 0, 0, .4); --shadow-3: 0 16px 40px rgba(0, 0, 0, .55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --primary: #6C9BFF; --primary-contrast: #0B1220;
+  --income: #3DD598; --income-soft: #12372C; --expense: #FF8A65; --expense-soft: #3F2219;
+  --danger: #F2766D; --warning: #F2C14E;
+  --bg: #0F1115; --surface: #181B21; --surface-2: #222630; --border: #2E3340;
+  --text: #ECEFF4; --text-muted: #A0A8B6;
+  --cat-1: #FF9A66; --cat-2: #6C9BFF; --cat-3: #A58BFF; --cat-4: #F07DB5;
+  --cat-5: #F2C14E; --cat-6: #3DD598; --cat-7: #4FD1DB; --cat-8: #9AA3B2;
+  --shadow-1: 0 0 0 rgba(0, 0, 0, 0); --shadow-2: 0 4px 12px rgba(0, 0, 0, .4); --shadow-3: 0 16px 40px rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}

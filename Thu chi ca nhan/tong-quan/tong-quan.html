@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sổ Thu Chi – Module Tổng quan tháng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/overview.css">
+<style>
+/* Khung thử nghiệm: thay cho M2 (header, lề trang). Không thuộc module Tổng quan. */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:24px;padding:0 var(--gutter)}
+.dev-hd{max-width:1120px;margin:0 auto;height:56px;display:flex;align-items:center}
+.dev-hd h1{margin:0;font-size:18px;line-height:26px;font-weight:600}
+.dev-main{max-width:1120px;margin:0 auto;padding:8px 0 96px}
+.dev-box{margin-top:32px;background:var(--surface-2);border-radius:var(--radius-md);padding:12px 16px;font-size:13px;line-height:18px;color:var(--text-muted)}
+.dev-box b{color:var(--text)}
+.dev-box .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.dev-box button{min-height:44px;padding:0 12px;border-radius:var(--radius-md);border:0;background:var(--surface);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+.dev-box button:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+</style>
+</head>
+<body>
+<header class="dev-hd"><h1>Sổ Thu Chi</h1></header>
+<main class="dev-main">
+  <div id="overview"></div>
+  <div class="dev-box">
+    Khung thử nghiệm M4. Tháng đang chọn (phát cho M5/M6): <b id="dev-month">–</b> · Lần bấm "Thêm khoản": <b id="dev-add">0</b>
+    <div class="row">
+      <button type="button" data-dev="inc">+ Thu 1.000.000 ₫</button>
+      <button type="button" data-dev="exp">+ Chi 500.000 ₫</button>
+      <button type="button" data-dev="clear">Xóa dữ liệu mẫu</button>
+    </div>
+  </div>
+</main>
+<script src="js/overview-model.js"></script>
+<script src="js/demo-store.js"></script>
+<script src="js/overview-view.js"></script>
+<script>
+(function () {
+  var p = new URLSearchParams(location.search), nowStr = p.get('now');
+  var now = nowStr ? function () { var a = nowStr.split('-'); return new Date(+a[0], +a[1] - 1, +a[2], 12, 0, 0); } : function () { return new Date(); };
+  document.addEventListener('sotc:month-changed', function (e) { document.getElementById('dev-month').textContent = e.detail.ym; window.__months = (window.__months || []).concat(e.detail.ym); });
+  var adds = 0;
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-action="add"]')) document.getElementById('dev-add').textContent = ++adds;
+    var d = e.target.closest('[data-dev]');
+    if (!d) return;
+    var ym = SoThuChiOverview.getMonth(), t = now(), today = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0');
+    var date = ym === today.slice(0, 7) ? today : ym + '-01';
+    if (d.dataset.dev === 'clear') DemoStore.clear();
+    else DemoStore.seed([{ type: d.dataset.dev === 'inc' ? 'income' : 'expense', amount: d.dataset.dev === 'inc' ? 1000000 : 500000, category: d.dataset.dev === 'inc' ? 'luong' : 'an-uong', date: date }]);
+    document.dispatchEvent(new CustomEvent('sotc:data-changed', { detail: { source: 'dev' } })); // giả lập M3
+  });
+  SoThuChiOverview.mount(document.getElementById('overview'), { store: DemoStore, now: now });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+/*
+ * Module M4 – Tổng quan tháng. Chỉ dùng token trong tokens.css (DESIGN.md mục 2–6, 8, 9, 10.10, 11.5). Tiền tố ov-.
+ * Điện thoại: thẻ Số dư rộng toàn dòng ở trên, Thu/Chi chia đôi. ≥640px: 3 thẻ bằng nhau (Thu, Chi, Số dư).
+ */
+.ov { font-family: var(--font); font-size: 16px; line-height: 24px; color: var(--text); max-width: 1120px; margin: 0 auto; }
+.ov *, .ov *::before, .ov *::after { box-sizing: border-box; }
+.ov [hidden] { display: none; }
+.ov-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:where(.ov button) { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
+.ov :focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ov-ic { flex: none; display: block; }
+
+/* ---------- Bộ chọn tháng (DESIGN 6.1) ---------- */
+.ov-mp { display: flex; align-items: center; justify-content: center; gap: 4px; margin: 8px 0 16px; }
+.ov-ibtn {
+  width: 44px; height: 44px; border-radius: var(--radius-full); display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text); transition: background var(--dur-fast), transform var(--dur-fast), opacity var(--dur-fast);
+}
+.ov-ibtn:hover:not(:disabled) { background: var(--surface-2); }
+.ov-ibtn:active:not(:disabled) { transform: scale(.97); }
+.ov-ibtn:disabled { opacity: .4; cursor: not-allowed; }
+.ov-mlabel { margin: 0; min-width: 160px; text-align: center; font-size: 18px; line-height: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---------- Banner cảnh báo chi > thu (DESIGN 10.10: vạch trái 4px --warning, nền --surface-2, chữ --text) ---------- */
+.ov-banners { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.ov-banners:empty { display: none; }
+.ov-banner {
+  display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; background: var(--surface-2); color: var(--text);
+  border-left: 4px solid var(--warning); border-radius: var(--radius-md); padding: 12px 16px;
+}
+.ov-banner .ov-bt { flex: 1 1 240px; min-width: 0; display: flex; gap: 10px; }
+.ov-banner .ov-bt svg { color: var(--warning); margin-top: 2px; }
+.ov-banner strong { display: block; font-weight: 600; }
+.ov-banner span.ov-bmsg { display: block; overflow-wrap: anywhere; }
+.ov-banner.ov-err { border-left-color: var(--danger); background: color-mix(in srgb, var(--danger) 12%, var(--surface)); }
+.ov-banner.ov-err .ov-bt svg { color: var(--danger); }
+.ov-banner .ov-ba { display: flex; margin-left: auto; }
+
+/* ---------- Thẻ số liệu (DESIGN 6.2) ---------- */
+.ov-sum { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; transition: opacity var(--dur-base) var(--ease-out); }
+.ov-card {
+  background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); padding: 16px 20px; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+:root[data-theme="dark"] .ov-card, :root[data-theme="dark"] .ov-block { border: 1px solid var(--border); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ov-card, :root:not([data-theme="light"]) .ov-block { border: 1px solid var(--border); } }
+.ov-card[data-kind="balance"] { grid-column: 1 / -1; order: -1; }
+.ov-lab { display: flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; line-height: 18px; font-weight: 500; }
+.ov-val { display: block; min-width: 0; font-weight: 700; font-variant-numeric: tabular-nums; font-size: 20px; line-height: 28px; }
+.ov-vis { display: block; white-space: nowrap; overflow: hidden; }
+.ov-card[data-kind="balance"] .ov-val { font-size: 32px; line-height: 40px; }
+.ov-card[data-kind="income"] .ov-val { color: var(--income); }
+.ov-card[data-kind="expense"] .ov-val { color: var(--expense); }
+.ov-card[data-kind="balance"] .ov-val { color: var(--text); }
+.ov-card[data-kind="balance"][data-neg="true"] .ov-val { color: var(--expense); }
+.ov-tag {
+  display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: 4px; padding: 2px 10px 2px 8px;
+  border-radius: var(--radius-full); background: var(--surface-2); color: var(--text); font-size: 13px; line-height: 18px; font-weight: 500;
+}
+.ov-tag svg { color: var(--warning); }
+.ov-sum[data-dim="true"] .ov-val, .ov-sum[data-dim="true"] .ov-card .ov-val { color: var(--text-muted); }
+/* lần đầu mở: thẻ 0 ₫ "mờ" (DESIGN 11.5.1). Dùng --text-muted thay vì opacity 60% vì màu thu/chi ở 60% chỉ đạt ~2,5:1 (< 3:1) */
+@media (min-width: 640px) {
+  .ov-sum { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ov-card[data-kind="balance"] { grid-column: auto; order: 0; }
+  .ov-card .ov-val, .ov-card[data-kind="balance"] .ov-val { font-size: 24px; line-height: 32px; }
+}
+.ov-fade { animation: ov-fade var(--dur-base) var(--ease-out); }
+@keyframes ov-fade { from { opacity: 0; } }
+
+/* ---------- Khối trạng thái (DESIGN 11.5) ---------- */
+.ov-state { margin-top: 24px; }
+.ov-block { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-1); }
+.ov-first { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 32px 16px; }
+.ov-first svg.ov-art { color: var(--text-muted); }
+.ov-first h3 { margin: 8px 0 0; font-size: 18px; line-height: 26px; font-weight: 600; }
+.ov-first p { margin: 0; max-width: 280px; color: var(--text-muted); }
+.ov-first .ov-priv { font-size: 13px; line-height: 18px; font-weight: 500; margin-top: 8px; }
+@media (min-width: 640px) { .ov-first { max-width: 360px; margin: 0 auto; } .ov-state .ov-block.ov-wrap { padding: 8px; } }
+.ov-empty { min-height: 120px; display: flex; align-items: center; gap: 12px 16px; flex-wrap: wrap; padding: 20px; }
+.ov-empty .ov-et { flex: 1 1 220px; display: flex; align-items: center; gap: 12px; min-width: 0; color: var(--text); font-weight: 600; }
+.ov-empty .ov-et svg { color: var(--text-muted); }
+.ov-empty .ov-ea { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- Nút (DESIGN 6.5) ---------- */
+.ov-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 16px; border-radius: var(--radius-md);
+  font-weight: 600; white-space: nowrap; transition: background var(--dur-fast), transform var(--dur-fast), filter var(--dur-fast);
+}
+.ov-btn:active { transform: scale(.97); }
+.ov-btn:hover { filter: brightness(.96); }
+.ov-btn-primary { background: var(--primary); color: var(--primary-contrast); }
+.ov-btn-secondary { background: var(--surface-2); color: var(--text); }
+.ov-btn-ghost { min-height: 44px; color: var(--primary); }
+.ov-btn-ghost:hover { background: var(--surface-2); filter: none; }
+
+/* ---------- Skeleton (DESIGN 11.5.3) ---------- */
+.ov-skel { background: var(--surface-2); border-radius: var(--radius-md); position: relative; overflow: hidden; }
+.ov-skel::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, #fff 10%, transparent), transparent);
+  animation: ov-sweep 1.2s var(--ease-out) infinite;
+}
+@keyframes ov-sweep { to { transform: translateX(100%); } }
+.ov-card.ov-skelcard { min-height: 96px; gap: 10px; }
+.ov-card.ov-skelcard .ov-skel:first-child { height: 14px; width: 40%; }
+.ov-card.ov-skelcard .ov-skel:last-child { height: 28px; width: 70%; }
+.ov-card[data-kind="balance"].ov-skelcard { min-height: 112px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ov *:not(.ov-skel), .ov *::before { animation-duration: 1ms !important; transition-duration: 1ms !important; animation-iteration-count: 1 !important; }
+  .ov-skel::after { display: none; }
+  .ov-skel { animation: ov-pulse 1.2s ease-in-out infinite alternate; } /* chỉ đổi độ mờ chậm, không quét */
+  @keyframes ov-pulse { from { opacity: .6; } to { opacity: 1; } }
+}
